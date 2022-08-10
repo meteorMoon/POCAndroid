@@ -1,4 +1,4 @@
-package com.example.pocshoppinglist.ui.theme
+package com.example.pocshoppinglist.presentation.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
