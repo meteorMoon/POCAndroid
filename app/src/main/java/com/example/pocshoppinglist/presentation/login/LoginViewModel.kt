@@ -5,8 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pocshoppinglist.common.util.Resource
 import com.example.pocshoppinglist.domain.model.User
 import com.example.pocshoppinglist.domain.repository.LoginRepository
+import com.example.pocshoppinglist.presentation.navigation.Navigator
+import com.example.pocshoppinglist.presentation.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,7 +23,7 @@ class LoginViewModel @Inject constructor(
         private set
 
     fun onEvent(event: LoginEvent) {
-        when(event) {
+        when (event) {
             is LoginEvent.OnUsernameChange -> {
                 state = state.copy(username = event.username)
             }
@@ -37,11 +40,22 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun doLoginAttempt() = viewModelScope.launch {
-        val loginResponse = repository.login(User(state.username, state.email, state.password))
+        when (val loginResponse =
+            repository.login(User(state.username, state.email, state.password))) {
+            is Resource.Success -> {
+                validateLogin(loginResponse.data)
+                if(state.successfulLogin) {
+                    Navigator.navigateTo(Screen.ProductListScreen)
+                }
+            }
+            else -> {
+                TODO("some toast")
+            }
+        }
     }
 
     private fun validateLogin(token: String?) {
-        state = if(token.isNullOrBlank()) {
+        state = if (token.isNullOrBlank()) {
             state.copy(
                 successfulLogin = false,
                 password = "",

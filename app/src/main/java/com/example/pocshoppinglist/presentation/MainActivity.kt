@@ -3,7 +3,9 @@ package com.example.pocshoppinglist.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.pocshoppinglist.presentation.login.LoginScreen
+import androidx.navigation.compose.rememberNavController
+import com.example.pocshoppinglist.presentation.navigation.NavigationComponent
+import com.example.pocshoppinglist.presentation.navigation.Navigator
 import com.example.pocshoppinglist.presentation.ui.theme.PocShoppingListTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -13,7 +15,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PocShoppingListTheme {
-                LoginScreen()
+                val navController = rememberNavController()
+                NavigationComponent(navController = navController, navigator = Navigator)
             }
         }
     }
