@@ -12,12 +12,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.example.pocshoppinglist.R
-import com.ramcosta.composedestinations.annotation.Destination
 
 @Composable
-@Destination(start = true)
 fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
